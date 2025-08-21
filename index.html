@@ -3,456 +3,610 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Application</title>
+    <title>New Expense Claim</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        .header {
-            background: linear-gradient(45deg, #007AFF, #0056D2);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
-        
-        .header h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .header p {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        
-        .content {
-            padding: 40px 30px;
-        }
-        
-        .section {
-            margin-bottom: 30px;
-            padding: 25px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #007AFF;
-        }
-        
-        .section h2 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
-        
-        .section p {
-            color: #666;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: #f5f5f5;
             line-height: 1.6;
-            font-size: 16px;
-            margin-bottom: 20px;
         }
-        
-        .btn {
-            background: linear-gradient(45deg, #007AFF, #0056D2);
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .header-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .home-btn {
+            background: #8e24aa;
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .home-btn:hover {
+            background: #7b1fa2;
+        }
+
+        .more-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-size: 16px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            color: #8e24aa;
+            border-bottom-color: #8e24aa;
+        }
+
+        .container {
+            max-width: 100%;
+            background: white;
+            min-height: calc(100vh - 120px);
+        }
+
+        .form-header {
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #666;
+            margin-right: 15px;
+        }
+
+        .form-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-icon {
+            width: 20px;
+            height: 20px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .draft-status {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-content {
+            padding: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .required {
+            color: #f44336;
+        }
+
+        .form-input, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            background: white;
+        }
+
+        .form-input:focus, .form-select:focus {
+            outline: none;
+            border-color: #8e24aa;
+            box-shadow: 0 0 0 2px rgba(142, 36, 170, 0.1);
+        }
+
+        .form-input:disabled {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .claim-number-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .claim-prefix {
+            background: #f5f5f5;
+            padding: 12px 16px;
+            border: 1px solid #ddd;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+            color: #666;
+            font-size: 16px;
+        }
+
+        .claim-number {
+            border-radius: 0 4px 4px 0;
+            flex: 1;
+        }
+
+        .date-range {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .date-input {
+            flex: 1;
+        }
+
+        .date-separator {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            background: #fafafa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .upload-area:hover {
+            border-color: #8e24aa;
+            background: #f3e5f5;
+        }
+
+        .upload-icon {
+            font-size: 32px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .upload-text {
+            color: #666;
+            font-size: 16px;
+        }
+
+        .advance-section {
+            background: #e8f5e8;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #4caf50;
+        }
+
+        .advance-label {
+            color: #2e7d32;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .advance-input {
+            border: 1px solid #4caf50;
+            background: white;
+        }
+
+        .advance-input:focus {
+            border-color: #2e7d32;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.1);
+        }
+
+        .readonly-field {
+            background: #f8f8f8;
+            color: #666;
+        }
+
+        .form-actions {
+            position: sticky;
+            bottom: 0;
+            background: white;
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn-draft {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
+            flex: 1;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
         }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+
+        .btn-draft:hover {
+            background: #45a049;
+            transform: translateY(-1px);
         }
-        
-        .btn:active {
+
+        .btn-draft:active {
             transform: translateY(0);
         }
-        
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            animation: fadeIn 0.3s ease;
-        }
-        
-        .modal-content {
-            background-color: white;
-            margin: 10% auto;
-            padding: 0;
-            border-radius: 15px;
-            width: 90%;
-            max-width: 500px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            animation: slideIn 0.3s ease;
-            overflow: hidden;
-        }
-        
-        .modal-header {
-            background: linear-gradient(45deg, #007AFF, #0056D2);
-            color: white;
-            padding: 20px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .modal-header h3 {
-            font-size: 20px;
-            margin: 0;
-        }
-        
-        .close {
-            color: white;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-        }
-        
-        .close:hover {
-            opacity: 0.7;
-        }
-        
-        .modal-body {
-            padding: 30px;
-        }
-        
-        .modal-body h4 {
-            color: #333;
-            margin-bottom: 15px;
-            font-size: 18px;
-        }
-        
-        .modal-body p {
+
+        .print-btn {
+            background: none;
+            border: 2px solid #666;
             color: #666;
-            line-height: 1.6;
-            margin-bottom: 20px;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        
-        .feature-list {
-            list-style: none;
-            margin: 20px 0;
+
+        .print-btn:hover {
+            background: #666;
+            color: white;
         }
-        
-        .feature-list li {
-            padding: 8px 0;
-            color: #555;
-            position: relative;
-            padding-left: 25px;
+
+        .file-input {
+            display: none;
         }
-        
-        .feature-list li:before {
-            content: "✓";
-            position: absolute;
-            left: 0;
-            color: #007AFF;
-            font-weight: bold;
-        }
-        
-        .contact-info {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        
-        .contact-info h4 {
-            color: #007AFF;
-            margin-bottom: 10px;
-        }
-        
-        .contact-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .contact-item:last-child {
-            border-bottom: none;
-        }
-        
-        .modal-footer {
-            padding: 20px 30px;
-            text-align: center;
-            border-top: 1px solid #eee;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
+
         @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-                border-radius: 10px;
+            .header-top {
+                padding: 10px 15px;
             }
-            
-            .header {
-                padding: 20px;
+
+            .header-title {
+                font-size: 16px;
             }
-            
-            .header h1 {
-                font-size: 24px;
+
+            .form-content {
+                padding: 15px;
             }
-            
-            .content {
-                padding: 20px 15px;
+
+            .date-range {
+                flex-direction: column;
+                gap: 10px;
             }
-            
-            .section {
-                padding: 20px 15px;
+
+            .date-separator {
+                display: none;
             }
-            
-            .modal-content {
-                margin: 5% auto;
-                width: 95%;
+
+            .form-actions {
+                padding: 15px;
+                flex-direction: column;
             }
-            
-            .modal-body {
-                padding: 20px;
+
+            .claim-number-group {
+                flex-direction: column;
+                gap: 10px;
             }
+
+            .claim-prefix {
+                border-radius: 4px;
+                border-right: 1px solid #ddd;
+                text-align: center;
+            }
+
+            .claim-number {
+                border-radius: 4px;
+            }
+        }
+
+        /* Alert Animation */
+        @keyframes slideInDown {
+            from {
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            padding: 15px 20px;
+            border-radius: 6px;
+            color: white;
+            font-weight: 500;
+            animation: slideInDown 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .alert-success {
+            background: #4caf50;
+        }
+
+        .alert-info {
+            background: #2196F3;
+        }
+
+        .alert-warning {
+            background: #ff9800;
         }
     </style>
 </head>
 <body>
+    <div class="header">
+        <div class="header-top">
+            <div class="header-left">
+                <button class="menu-btn" onclick="showAlert('Menu opened!', 'info')">☰</button>
+                <span class="header-title">New Expense Claim</span>
+            </div>
+            <div class="header-right">
+                <button class="home-btn" onclick="showAlert('Navigating to Home', 'info')">Home</button>
+                <button class="more-btn" onclick="showAlert('More options menu', 'info')">⋮</button>
+            </div>
+        </div>
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('expense-claim')">Expense Claim</button>
+            <button class="tab" onclick="switchTab('expenses')">Expenses</button>
+        </div>
+    </div>
+
     <div class="container">
-        <div class="header">
-            <h1>Test Application</h1>
-            <p>Complete testing environment for React Native development</p>
-        </div>
-        
-        <div class="content">
-            <div class="section">
-                <h2>🚀 Application Features</h2>
-                <p>Discover the powerful features and capabilities of our test application. This section provides comprehensive information about all available functionalities.</p>
-                <button class="btn" onclick="openModal('featuresModal')">View Features</button>
-            </div>
-            
-            <div class="section">
-                <h2>📊 Performance Analytics</h2>
-                <p>Monitor your application performance with real-time analytics and detailed reporting tools. Get insights into user behavior and system performance.</p>
-                <button class="btn" onclick="openModal('analyticsModal')">View Analytics</button>
-            </div>
-            
-            <div class="section">
-                <h2>🛠️ Developer Tools</h2>
-                <p>Access comprehensive developer tools and debugging utilities designed specifically for React Native development and testing purposes.</p>
-                <button class="btn" onclick="openModal('toolsModal')">Access Tools</button>
-            </div>
-            
-            <div class="section">
-                <h2>📞 Support Center</h2>
-                <p>Get help from our dedicated support team. Find answers to common questions and get assistance with any issues you may encounter.</p>
-                <button class="btn" onclick="openModal('supportModal')">Get Support</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Features Modal -->
-    <div id="featuresModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Application Features</h3>
-                <span class="close" onclick="closeModal('featuresModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h4>🎯 Key Features</h4>
-                <p>Our application offers a comprehensive set of features designed to enhance your testing experience:</p>
-                <ul class="feature-list">
-                    <li>Real-time data synchronization</li>
-                    <li>Offline mode support</li>
-                    <li>Push notifications</li>
-                    <li>Biometric authentication</li>
-                    <li>Multi-language support</li>
-                    <li>Dark/Light theme toggle</li>
-                    <li>Advanced search functionality</li>
-                    <li>Data export capabilities</li>
-                </ul>
-                <p>Each feature is thoroughly tested and optimized for React Native applications to ensure smooth performance across all devices.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" onclick="closeModal('featuresModal')">Got It!</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Analytics Modal -->
-    <div id="analyticsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Performance Analytics</h3>
-                <span class="close" onclick="closeModal('analyticsModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h4>📈 Analytics Dashboard</h4>
-                <p>Monitor your application's performance with detailed metrics and insights:</p>
-                <ul class="feature-list">
-                    <li>User engagement statistics</li>
-                    <li>App performance metrics</li>
-                    <li>Crash reporting and analysis</li>
-                    <li>Network usage tracking</li>
-                    <li>Battery consumption monitoring</li>
-                    <li>Memory usage optimization</li>
-                </ul>
-                <p>All analytics data is processed in real-time to provide you with the most accurate and up-to-date information about your application's performance.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" onclick="closeModal('analyticsModal')">Close Analytics</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Tools Modal -->
-    <div id="toolsModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Developer Tools</h3>
-                <span class="close" onclick="closeModal('toolsModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h4>🔧 Available Tools</h4>
-                <p>Access powerful development and debugging tools:</p>
-                <ul class="feature-list">
-                    <li>React Native Debugger integration</li>
-                    <li>Component inspector</li>
-                    <li>Network request monitor</li>
-                    <li>Console log viewer</li>
-                    <li>Performance profiler</li>
-                    <li>Layout inspector</li>
-                    <li>State management tools</li>
-                    <li>Hot reload capabilities</li>
-                </ul>
-                <p>These tools are essential for efficient React Native development and testing workflows.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn" onclick="closeModal('toolsModal')">Close Tools</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Support Modal -->
-    <div id="supportModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Support Center</h3>
-                <span class="close" onclick="closeModal('supportModal')">&times;</span>
-            </div>
-            <div class="modal-body">
-                <h4>💬 Contact Information</h4>
-                <p>Get in touch with our support team for any assistance:</p>
-                
-                <div class="contact-info">
-                    <h4>📧 Contact Details</h4>
-                    <div class="contact-item">
-                        <strong>Email:</strong>
-                        <span>support@testapp.com</span>
-                    </div>
-                    <div class="contact-item">
-                        <strong>Phone:</strong>
-                        <span>+1 (555) 123-4567</span>
-                    </div>
-                    <div class="contact-item">
-                        <strong>Hours:</strong>
-                        <span>24/7 Support Available</span>
-                    </div>
-                    <div class="contact-item">
-                        <strong>Response Time:</strong>
-                        <span>Within 2 hours</span>
-                    </div>
+        <div class="form-header">
+            <div style="display: flex; align-items: center;">
+                <button class="back-btn" onclick="showAlert('Going back to previous page', 'info')">‹</button>
+                <div class="form-title">
+                    <div class="info-icon">?</div>
                 </div>
-                
-                <p>Our dedicated support team is always ready to help you with any questions or issues you may encounter while using our application.</p>
             </div>
-            <div class="modal-footer">
-                <button class="btn" onclick="closeModal('supportModal')">Contact Support</button>
+            <div class="draft-status">Draft</div>
+        </div>
+
+        <div class="form-content">
+            <div class="form-group">
+                <label class="form-label">Claim Series<span class="required">*</span></label>
+                <select class="form-select" onclick="showAlert('Claim series selected', 'success')">
+                    <option>Intec Expense Claim</option>
+                    <option>Travel Expense Claim</option>
+                    <option>Medical Expense Claim</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Claim No<span class="required">*</span></label>
+                <div class="claim-number-group">
+                    <div class="claim-prefix">CLM-I/</div>
+                    <input type="text" class="form-input claim-number" value="014883" readonly>
+                </div>
+                <div style="color: #666; font-size: 12px; margin-top: 5px;">Suffix</div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Claim Period<span class="required">*</span></label>
+                <div class="date-range">
+                    <input type="text" class="form-input date-input" placeholder="From Date" onclick="showAlert('From date picker opened', 'info')">
+                    <span class="date-separator">-</span>
+                    <input type="text" class="form-input date-input" placeholder="To Date" onclick="showAlert('To date picker opened', 'info')">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Supporting Doc.</label>
+                <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                    <div class="upload-icon">📎</div>
+                    <div class="upload-text">Upload File</div>
+                </div>
+                <input type="file" id="fileInput" class="file-input" multiple onchange="handleFileUpload(event)">
+            </div>
+
+            <div class="form-group advance-section">
+                <div class="advance-label">Total Advance Taken</div>
+                <input type="number" class="form-input advance-input" value="0.00" step="0.01" onchange="showAlert('Advance amount updated', 'success')">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Claim Date</label>
+                <input type="text" class="form-input readonly-field" value="21-Aug-25" readonly>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-input readonly-field" value="Devendra Kumar" readonly>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Manager</label>
+                <input type="text" class="form-input readonly-field" value="Rajeev Goel" readonly>
             </div>
         </div>
+    </div>
+
+    <div class="form-actions">
+        <button class="btn-draft" onclick="saveDraft()">Save as Draft</button>
+        <button class="print-btn" onclick="printForm()">🖨️</button>
     </div>
 
     <script>
-        function openModal(modalId) {
-            document.getElementById(modalId).style.display = 'block';
-            document.body.style.overflow = 'hidden';
+        function showAlert(message, type = 'info') {
+            // Remove any existing alerts
+            const existingAlert = document.querySelector('.alert');
+            if (existingAlert) {
+                existingAlert.remove();
+            }
+
+            // Create new alert
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+
+            // Add to page
+            document.body.appendChild(alert);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                alert.remove();
+            }, 3000);
         }
-        
-        function closeModal(modalId) {
-            document.getElementById(modalId).style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-        
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modals = document.getElementsByClassName('modal');
-            for (let i = 0; i < modals.length; i++) {
-                if (event.target === modals[i]) {
-                    modals[i].style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
+
+        function switchTab(tabName) {
+            // Remove active class from all tabs
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            event.target.classList.add('active');
+            
+            if (tabName === 'expense-claim') {
+                showAlert('Expense Claim tab selected', 'info');
+            } else {
+                showAlert('Expenses tab selected', 'info');
             }
         }
-        
-        // Close modal with Escape key
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const modals = document.getElementsByClassName('modal');
-                for (let i = 0; i < modals.length; i++) {
-                    if (modals[i].style.display === 'block') {
-                        modals[i].style.display = 'none';
-                        document.body.style.overflow = 'auto';
-                    }
-                }
+
+        function handleFileUpload(event) {
+            const files = event.target.files;
+            if (files.length > 0) {
+                const fileNames = Array.from(files).map(file => file.name).join(', ');
+                showAlert(`Files selected: ${fileNames}`, 'success');
+                
+                // Update upload area to show selected files
+                const uploadArea = document.querySelector('.upload-area');
+                const uploadText = uploadArea.querySelector('.upload-text');
+                uploadText.textContent = `${files.length} file(s) selected`;
+                uploadArea.style.background = '#e8f5e8';
+                uploadArea.style.borderColor = '#4caf50';
             }
+        }
+
+        function saveDraft() {
+            // Simulate saving process
+            const button = event.target;
+            const originalText = button.textContent;
+            
+            button.textContent = 'Saving...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+                showAlert('Draft saved successfully!', 'success');
+            }, 1500);
+        }
+
+        function printForm() {
+            showAlert('Preparing form for printing...', 'info');
+            
+            setTimeout(() => {
+                window.print();
+            }, 1000);
+        }
+
+        // Simulate form interactions
+        document.querySelectorAll('.form-input:not(.readonly-field)').forEach(input => {
+            input.addEventListener('focus', () => {
+                showAlert(`Editing ${input.previousElementSibling?.textContent || 'field'}`, 'info');
+            });
         });
 
-        // Add some interactive effects
+        // Add some interactive behaviors
         document.addEventListener('DOMContentLoaded', function() {
-            // Add loading animation
-            const sections = document.querySelectorAll('.section');
-            sections.forEach((section, index) => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(20px)';
+            // Animate form sections on load
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach((group, index) => {
+                group.style.opacity = '0';
+                group.style.transform = 'translateY(20px)';
+                
                 setTimeout(() => {
-                    section.style.transition = 'all 0.5s ease';
-                    section.style.opacity = '1';
-                    section.style.transform = 'translateY(0)';
-                }, index * 200);
+                    group.style.transition = 'all 0.5s ease';
+                    group.style.opacity = '1';
+                    group.style.transform = 'translateY(0)';
+                }, index * 100);
             });
+
+            // Show welcome message
+            setTimeout(() => {
+                showAlert('Expense claim form ready for input', 'success');
+            }, 500);
         });
     </script>
 </body>
