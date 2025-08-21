@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Application</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(45deg, #007AFF, #0056D2);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 40px 30px;
+        }
+        
+        .section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #007AFF;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 22px;
+        }
+        
+        .section p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            background: linear-gradient(45deg, #007AFF, #0056D2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 122, 255, 0.4);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 10% auto;
+            padding: 0;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .modal-header {
+            background: linear-gradient(45deg, #007AFF, #0056D2);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-header h3 {
+            font-size: 20px;
+            margin: 0;
+        }
+        
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+        
+        .close:hover {
+            opacity: 0.7;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-body h4 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+        
+        .modal-body p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            color: #555;
+            position: relative;
+            padding-left: 25px;
+        }
+        
+        .feature-list li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #007AFF;
+            font-weight: bold;
+        }
+        
+        .contact-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        
+        .contact-info h4 {
+            color: #007AFF;
+            margin-bottom: 10px;
+        }
+        
+        .contact-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+        
+        .modal-footer {
+            padding: 20px 30px;
+            text-align: center;
+            border-top: 1px solid #eee;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .section {
+                padding: 20px 15px;
+            }
+            
+            .modal-content {
+                margin: 5% auto;
+                width: 95%;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Test Application Portal</h1>
+            <p>Complete testing environment for React Native development</p>
+        </div>
+        
+        <div class="content">
+            <div class="section">
+                <h2>🚀 Application Features</h2>
+                <p>Discover the powerful features and capabilities of our test application. This section provides comprehensive information about all available functionalities.</p>
+                <button class="btn" onclick="openModal('featuresModal')">View Features</button>
+            </div>
+            
+            <div class="section">
+                <h2>📊 Performance Analytics</h2>
+                <p>Monitor your application performance with real-time analytics and detailed reporting tools. Get insights into user behavior and system performance.</p>
+                <button class="btn" onclick="openModal('analyticsModal')">View Analytics</button>
+            </div>
+            
+            <div class="section">
+                <h2>🛠️ Developer Tools</h2>
+                <p>Access comprehensive developer tools and debugging utilities designed specifically for React Native development and testing purposes.</p>
+                <button class="btn" onclick="openModal('toolsModal')">Access Tools</button>
+            </div>
+            
+            <div class="section">
+                <h2>📞 Support Center</h2>
+                <p>Get help from our dedicated support team. Find answers to common questions and get assistance with any issues you may encounter.</p>
+                <button class="btn" onclick="openModal('supportModal')">Get Support</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Modal -->
+    <div id="featuresModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Application Features</h3>
+                <span class="close" onclick="closeModal('featuresModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4>🎯 Key Features</h4>
+                <p>Our application offers a comprehensive set of features designed to enhance your testing experience:</p>
+                <ul class="feature-list">
+                    <li>Real-time data synchronization</li>
+                    <li>Offline mode support</li>
+                    <li>Push notifications</li>
+                    <li>Biometric authentication</li>
+                    <li>Multi-language support</li>
+                    <li>Dark/Light theme toggle</li>
+                    <li>Advanced search functionality</li>
+                    <li>Data export capabilities</li>
+                </ul>
+                <p>Each feature is thoroughly tested and optimized for React Native applications to ensure smooth performance across all devices.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('featuresModal')">Got It!</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Analytics Modal -->
+    <div id="analyticsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Performance Analytics</h3>
+                <span class="close" onclick="closeModal('analyticsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4>📈 Analytics Dashboard</h4>
+                <p>Monitor your application's performance with detailed metrics and insights:</p>
+                <ul class="feature-list">
+                    <li>User engagement statistics</li>
+                    <li>App performance metrics</li>
+                    <li>Crash reporting and analysis</li>
+                    <li>Network usage tracking</li>
+                    <li>Battery consumption monitoring</li>
+                    <li>Memory usage optimization</li>
+                </ul>
+                <p>All analytics data is processed in real-time to provide you with the most accurate and up-to-date information about your application's performance.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('analyticsModal')">Close Analytics</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tools Modal -->
+    <div id="toolsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Developer Tools</h3>
+                <span class="close" onclick="closeModal('toolsModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4>🔧 Available Tools</h4>
+                <p>Access powerful development and debugging tools:</p>
+                <ul class="feature-list">
+                    <li>React Native Debugger integration</li>
+                    <li>Component inspector</li>
+                    <li>Network request monitor</li>
+                    <li>Console log viewer</li>
+                    <li>Performance profiler</li>
+                    <li>Layout inspector</li>
+                    <li>State management tools</li>
+                    <li>Hot reload capabilities</li>
+                </ul>
+                <p>These tools are essential for efficient React Native development and testing workflows.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('toolsModal')">Close Tools</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Modal -->
+    <div id="supportModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Support Center</h3>
+                <span class="close" onclick="closeModal('supportModal')">&times;</span>
+            </div>
+            <div class="modal-body">
+                <h4>💬 Contact Information</h4>
+                <p>Get in touch with our support team for any assistance:</p>
+                
+                <div class="contact-info">
+                    <h4>📧 Contact Details</h4>
+                    <div class="contact-item">
+                        <strong>Email:</strong>
+                        <span>support@testapp.com</span>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Phone:</strong>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Hours:</strong>
+                        <span>24/7 Support Available</span>
+                    </div>
+                    <div class="contact-item">
+                        <strong>Response Time:</strong>
+                        <span>Within 2 hours</span>
+                    </div>
+                </div>
+                
+                <p>Our dedicated support team is always ready to help you with any questions or issues you may encounter while using our application.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" onclick="closeModal('supportModal')">Contact Support</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target === modals[i]) {
+                    modals[i].style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        }
+        
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const modals = document.getElementsByClassName('modal');
+                for (let i = 0; i < modals.length; i++) {
+                    if (modals[i].style.display === 'block') {
+                        modals[i].style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                }
+            }
+        });
+
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation
+            const sections = document.querySelectorAll('.section');
+            sections.forEach((section, index) => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    section.style.transition = 'all 0.5s ease';
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
